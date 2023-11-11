@@ -1,8 +1,21 @@
-import React, { ChangeEvent, useState } from 'react';
-import Navbar from '../components/Navbar';
+import React, { ChangeEvent, useState } from "react";
+import Navbar from "../components/Navbar";
+
+const items = [
+  "Backpack",
+  "Sleep System",
+  "Shelter",
+  "Clothong",
+  "Cooking/Food",
+  "Trail",
+];
+const stars = ["1 Star", "2 Star", "3 Star", "4 Star", "5 star"];
 
 const FileUpload: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [productName, setProductName] = useState("");
+  const [type, setSelect] = useState("");
+  const [rate, setRate] = useState("");
+  const [review, setReview] = useState("");
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -50,91 +63,62 @@ const FileUpload: React.FC = () => {
                 </div>
                 <div>
                   <label
-                    htmlFor="password"
+                    htmlFor="productName"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Product Name
                   </label>
                   <input
+                    onChange={(event) => setProductName(event.target.value)}
+                    id="productName"
                     name="productName"
+                    value={productName}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     required
                   />
                 </div>
-
-                <button
-                  onClick={() => setOpen(!open)}
-                  id="dropdownDefaultButton"
-                  data-dropdown-toggle="dropdown"
-                  className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                  type="button"
-                >
-                  Type{' '}
-                  <svg
-                    className="w-2.5 h-2.5 ml-2.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Type
+                  <select
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+                    id="type"
+                    value={type}
+                    onChange={(event) => {
+                      setSelect(event.target.value);
+                    }}
                   >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 4 4 4-4"
-                    />
-                  </svg>
-                </button>
-                <div
-                  className={`${open ? 'close' : 'menu'} z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
-                >
-                  <ul
-                    className={` ${
-                      open ? '' : 'top-[-490px]'
-                    } absolute py-2 text-sm bg-white text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton`}
-                  >
-                    <li>
-                      <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Backpack
-                      </span>
-                    </li>
-                    <li>
-                      <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Sleeping Item
-                      </span>
-                    </li>
-                    <li>
-                      <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Shelter
-                      </span>
-                    </li>
-                    <li>
-                      <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Clothing
-                      </span>
-                    </li>
-                    <li>
-                      <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Cooking/food
-                      </span>
-                    </li>
-                    <li>
-                      <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Trail
-                      </span>
-                    </li>
-                  </ul>
-                </div>
+                    <option />
+                    {items.map((itemType) => (
+                      <option key={type}>{itemType}</option>
+                    ))}
+                  </select>
+                </label>
 
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Description
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Rating
+                  <select
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+                    id="type"
+                    value={rate}
+                    onChange={(event) => {
+                      setRate(event.target.value);
+                    }}
+                  >
+                    <option />
+                    {stars.map((rating) => (
+                      <option key={rate}>{rating}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Review
                 </label>
                 <textarea
+                  onChange={(event) => setReview(event.target.value)}
+                  value={review}
                   id="message"
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+                  required
                 ></textarea>
 
                 <button
