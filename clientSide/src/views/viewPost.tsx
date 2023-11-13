@@ -1,8 +1,4 @@
 const ViewPost = () => {
-    return(
-        <>
-
-        </>
-    )
-}
-export default ViewPost
+  return <></>;
+};
+export default ViewPost;

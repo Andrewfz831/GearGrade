@@ -1,10 +1,12 @@
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
+import Feed from "../components/Feed";
 
 const Favorites = () => {
-    return(
-        <>
-    <Navbar/>
-        </>
-    )
-}
-export default Favorites
+  return (
+    <>
+      <Navbar />
+      <Feed />
+    </>
+  );
+};
+export default Favorites;
