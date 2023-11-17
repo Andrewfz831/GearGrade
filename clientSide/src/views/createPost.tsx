@@ -11,7 +11,7 @@ const items = [
 ];
 const stars = ["1 Star", "2 Star", "3 Star", "4 Star", "5 star"];
 
-const FileUpload: React.FC = () => {
+const Post: React.FC = () => {
   const [productName, setProductName] = useState("");
   const [type, setSelect] = useState("");
   const [rate, setRate] = useState("");
@@ -136,4 +136,4 @@ const FileUpload: React.FC = () => {
   );
 };
 
-export default FileUpload;
+export default Post;
