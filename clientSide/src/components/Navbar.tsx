@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { TfiMenu } from "react-icons/tfi";
+import Button from "./Button";
 
 const Navbar = () => {
   const Links = [
@@ -59,14 +60,7 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <Link to="/Login">
-          <button
-            type="button"
-            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 md:inline-block hidden"
-          >
-            Login
-          </button>
-        </Link>
+        <Button route="/Login" text="Login" />
       </div>
     </div>
   );
