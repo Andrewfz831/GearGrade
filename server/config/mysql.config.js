@@ -8,4 +8,12 @@ const db = mysql.createConnection({
     password: "",
     database: "GearGrade"
 })
+
+db.connect((err) => {
+    if (err) {
+        console.error("error line 14", err)
+        return
+    }
+    console.log("connected to DB");
+})
 console.log('config file');
