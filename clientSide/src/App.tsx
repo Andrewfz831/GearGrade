@@ -1,5 +1,5 @@
-import React from "react";
-
+import { useEffect } from "react";
+import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./views/homePage";
 import CreatePost from "./views/createPost";
@@ -11,6 +11,12 @@ import SignUp from "./views/signUp";
 import ViewPost from "./views/viewPost";
 
 function App() {
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/users")
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <BrowserRouter>

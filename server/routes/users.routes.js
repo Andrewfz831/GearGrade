@@ -5,7 +5,8 @@ const router = express.Router();
 
 module.exports = app => {
 
-    router.post('/register',CONTROLLER.register)
+    router.post('/register', CONTROLLER.register)
+    router.post('/login', CONTROLLER.login)
     // router.post('/api/login', CONTROLLER.login)
     // router.post('/api/logout', CONTROLLER.logout)
 
