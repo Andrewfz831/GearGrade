@@ -35,12 +35,16 @@ module.exports = {
     login: async (req, res) => {
         try {
             const email = req.body.email
-            const q = `SELECT * FROM users Where email = ${email}`
+            const q = "SELECT * FROM users WHERE email = ?"
             console.log(email);
-            db.query(q, (err, data) => {
+            db.query(q, [email], (err, data) => {
                 if (err) {
-                    return res.json(err)
+                    return res.json("Error in database query")
                 }
+                if(data.length === 0) {
+                    return res.status(404).json("Email not found")
+                }
+                
                 return res.status(200).json('User Logged In')
             })
 
