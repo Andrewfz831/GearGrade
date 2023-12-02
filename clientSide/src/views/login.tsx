@@ -1,6 +1,29 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import {useState} from "react";
+import axios from "axios"
+import {useNavigate} from 'react-router-dom'
+
 const Login = () => {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+  const [errors, setErrors] = useState('')
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    axios.post('http://localhost:8080/api/login', {email,password})
+      .then (res => {
+        // console.log('user', res.data.user);
+        navigate('/Explore')
+      })
+      .catch( err => {        
+        setErrors(err.response.data)
+        console.log(errors);
+      })
+  }
+
   return (
     <>
       <Navbar />
@@ -46,7 +69,7 @@ const Login = () => {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Sign in to Gear Grade
               </h2>
-              <form className="mt-8 space-y-6" action="#">
+              <form className="mt-8 space-y-6" action="#" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="email"
@@ -61,6 +84,7 @@ const Login = () => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     placeholder="name@company.com"
                     required
+                    onChange={ e => setEmail(e.target.value)}
                   />
                 </div>
                 <div>
@@ -77,6 +101,7 @@ const Login = () => {
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     required
+                    onChange={ e => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="flex items-start">
