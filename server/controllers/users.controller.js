@@ -35,17 +35,24 @@ module.exports = {
     login: async (req, res) => {
         try {
             const email = req.body.email
+            const password = req.body.password
             const q = "SELECT * FROM users WHERE email = ?"
-            console.log(email);
-            db.query(q, [email], (err, data) => {
+            db.query(q, [email], async (err, data) => {
                 if (err) {
                     return res.json("Error in database query")
                 }
                 if(data.length === 0) {
-                    return res.status(404).json("Email not found")
+                    return res.status(404).json("Email/password incorrect")
+                }
+                const user = data[0]
+
+                const passwordMatch = await bcrypt.compare(password, user.password)
+                if(passwordMatch) {
+                    return res.status(200).json({message: 'User Logged In', user}) 
+                }else {
+                    return res.status(404).json({error: 'Email/password incorrect'})
                 }
                 
-                return res.status(200).json('User Logged In')
             })
 
         }
