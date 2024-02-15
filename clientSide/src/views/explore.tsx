@@ -4,7 +4,7 @@ import Feed from "../components/Feed";
 const Explore = () => {
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <Feed />
     </>
   );

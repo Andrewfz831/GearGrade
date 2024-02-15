@@ -9,11 +9,13 @@ import Login from "./views/login";
 import MyPost from "./views/myPost";
 import SignUp from "./views/signUp";
 import ViewPost from "./views/viewPost";
+import { LoggedUserProvider } from "./context/loggedUserContext";
 
 function App() {
   
   return (
     <>
+    <LoggedUserProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -26,6 +28,7 @@ function App() {
           <Route path="/ViewPost" element={<ViewPost />} />
         </Routes>
       </BrowserRouter>
+      </LoggedUserProvider>
     </>
   );
 }

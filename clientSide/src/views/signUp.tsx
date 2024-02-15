@@ -1,13 +1,38 @@
-import React from "react";
+import {useState, useContext} from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import {useNavigate} from 'react-router-dom'
+import axios from "axios";
+import {LoggedUserContext} from '../context/loggedUserContext'
+import { setCookie } from 'typescript-cookie';
 
 const RegistrationForm: React.FC = () => {
-  //   const handleSubmit = (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     // Add your form submission logic here
-  //   };
+
+    const {loggedUser, setLoggedUser} = useContext(LoggedUserContext)
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState("")
+    const navigate = useNavigate()
+
+
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      // Add your form submission logic here
+      axios.post('http://localhost:8080/api/register', {username,email,password}, {withCredentials:true})
+      .then( res => {
+        console.log('signUp', res.data);
+        setLoggedUser(res.data)
+        // Store user info in local storage
+        setCookie('loggedUser', JSON.stringify(res.data), { expires: 1 });
+        navigate('/explore');
+      })
+      .catch( err => {
+        setErrors(err.response.data)
+        console.log(errors);
+      })
+    };
 
   return (
     <>
@@ -54,8 +79,23 @@ const RegistrationForm: React.FC = () => {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Create Your Account!
               </h2>
-              <form className="mt-8 space-y-6" action="#">
+              <form className="mt-8 space-y-6" action="#" onSubmit={handleSubmit}>
                 <div>
+                <label
+                    htmlFor="username"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Username
+                  </label>
+                  <input
+                    type="username"
+                    name="username"
+                    id="username"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+                    placeholder="username"
+                    required
+                    onChange={ e => {setUsername(e.target.value)}}
+                  />
                   <label
                     htmlFor="email"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -69,6 +109,7 @@ const RegistrationForm: React.FC = () => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     placeholder="name@company.com"
                     required
+                    onChange={ e => {setEmail(e.target.value)}}
                   />
                 </div>
                 <div>
@@ -85,6 +126,7 @@ const RegistrationForm: React.FC = () => {
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     required
+                    onChange={ e => {setPassword(e.target.value)}}
                   />
                 </div>
                 <div>
