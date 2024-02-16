@@ -9,7 +9,9 @@ app.use(cors({credentials: true, origin: 'http://localhost:5173'}));
 app.use(express.json()); // Add this line to parse JSON requests
 
 const userRoutes = require('./routes/users.routes')
+const postRoutes = require('./routes/posts.routes')
 userRoutes(app)
+postRoutes(app)
 
 
 app.listen(8080, () => {
