@@ -7,8 +7,7 @@ module.exports = app => {
 
     router.post('/register', CONTROLLER.register)
     router.post('/login', CONTROLLER.login)
-    // router.post('/api/login', CONTROLLER.login)
-    // router.post('/api/logout', CONTROLLER.logout)
+    router.post('/logout', CONTROLLER.logout)
 
     // Don't forget to add this line to use the router in the app
     app.use('/api', router);

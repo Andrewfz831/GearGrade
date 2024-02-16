@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import axios from "axios"
 import {useNavigate} from 'react-router-dom'
+import {LoggedUserContext} from '../context/loggedUserContext'
+import { setCookie } from 'typescript-cookie';
 
-const Login = () => {
 
+const Login: React.FC = (props) => {
+  const {loggedUser, setLoggedUser} = useContext(LoggedUserContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -13,10 +16,12 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    axios.post('http://localhost:8080/api/login', {email,password})
+    axios.post('http://localhost:8080/api/login', {email,password}, { withCredentials: true })
       .then (res => {
-        // console.log('user', res.data.user);
-        navigate('/Explore')
+        setLoggedUser(res.data);
+        // Store user info in local storage
+        setCookie('loggedUser', JSON.stringify(res.data), { expires: 1 });
+        navigate('/Explore');
       })
       .catch( err => {        
         setErrors(err.response.data)
@@ -86,6 +91,9 @@ const Login = () => {
                     required
                     onChange={ e => setEmail(e.target.value)}
                   />
+                  { errors ? (
+                      <span className="text-red-400">{errors}</span>
+                    ) : null}
                 </div>
                 <div>
                   <label
@@ -103,26 +111,12 @@ const Login = () => {
                     required
                     onChange={ e => setPassword(e.target.value)}
                   />
+                  { errors ? (
+                      <span className="text-red-400">{errors}</span>
+                    ) : null}
+                  
                 </div>
                 <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      name="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-green-300 dark:focus:ring-green-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                      required
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="remember"
-                      className="font-medium text-gray-500 dark:text-gray-400"
-                    >
-                      Remember this device
-                    </label>
-                  </div>
                   <a
                     href="#"
                     className="ml-auto text-sm font-medium text-green-600 hover:underline dark:text-green-500"

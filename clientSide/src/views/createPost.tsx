@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 const items = [
   "Backpack",
@@ -14,16 +15,46 @@ const stars = ["1 Star", "2 Star", "3 Star", "4 Star", "5 star"];
 const Post: React.FC = () => {
   const [productName, setProductName] = useState("");
   const [type, setSelect] = useState("");
-  const [rate, setRate] = useState("");
+  const [rating, setRating] = useState("");
   const [review, setReview] = useState("");
+  const [image,setImage] = useState<File | undefined> (undefined)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-
-    if (selectedFile) {
-      console.log(`Selected file: ${selectedFile.name}`);
-    }
+    setImage(selectedFile)
   };
+
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    console.log('Selected rating:', rating);
+    
+
+    const formData = new FormData();
+    console.log(formData);
+    
+
+    if(image) {
+      formData.append('image',image)
+    }
+    // Append other form data fields to the FormData object
+    formData.append('productName', productName);
+    formData.append('type', type);
+    formData.append('rating', rating);
+    formData.append('review', review);
+
+    axios.post('http://localhost:8080/api/createPost', formData)
+    .then(res => {
+      console.log(image);
+      
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err);
+      
+    })
+  }
 
   return (
     <>
@@ -37,8 +68,8 @@ const Post: React.FC = () => {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Create Post
               </h2>
-              <form className="mt-8 space-y-6" action="#">
-                <div>
+              <form className="mt-8 space-y-6" action="#" onSubmit={handleSubmit} encType="multipart/form-data">
+                <div> 
                   <div>
                     <label
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -99,14 +130,14 @@ const Post: React.FC = () => {
                   <select
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     id="type"
-                    value={rate}
+                    value={rating}
                     onChange={(event) => {
-                      setRate(event.target.value);
+                      setRating(event.target.value);
                     }}
                   >
                     <option />
-                    {stars.map((rating) => (
-                      <option key={rate}>{rating}</option>
+                    {stars.map((ratingValue) => (
+                      <option key={ratingValue}>{ratingValue}</option>
                     ))}
                   </select>
                 </label>
